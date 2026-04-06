@@ -2,8 +2,8 @@ import React, { createContext, useContext, useState, useCallback } from "react";
 
 export interface Message {
   id: string;
-  from: string;
-  to: string;
+  from: number;
+  to: number | "ALL";
   text: string;
   timestamp: number;
   type: "text" | "alert" | "file";
@@ -13,8 +13,8 @@ export interface Message {
 interface CommState {
   messages: Message[];
   sendMessage: (msg: Omit<Message, "id" | "timestamp">) => void;
-  getConversation: (villageA: string, villageB: string) => Message[];
-  getAlertsForVillage: (villageId: string) => Message[];
+  getConversation: (villageA: number, villageB: number) => Message[];
+  getAlertsForVillage: (villageId: number) => Message[];
 }
 
 const CommContext = createContext<CommState | null>(null);
@@ -31,13 +31,13 @@ export const CommProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setMessages(prev => [...prev, newMsg]);
   }, []);
 
-  const getConversation = useCallback((villageA: string, villageB: string) => {
+  const getConversation = useCallback((villageA: number, villageB: number) => {
     return messages.filter(
       m => (m.from === villageA && m.to === villageB) || (m.from === villageB && m.to === villageA)
     ).sort((a, b) => a.timestamp - b.timestamp);
   }, [messages]);
 
-  const getAlertsForVillage = useCallback((villageId: string) => {
+  const getAlertsForVillage = useCallback((villageId: number) => {
     return messages.filter(
       m => m.type === "alert" && (m.to === villageId || m.to === "ALL")
     ).sort((a, b) => b.timestamp - a.timestamp);

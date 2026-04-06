@@ -15,7 +15,6 @@ const VillageOverview: React.FC<Props> = ({ currentVillage }) => {
 
   return (
     <div className="space-y-6">
-      {/* Current village status */}
       <div className="bg-card border border-primary/30 rounded-lg p-4 glow-primary">
         <div className="flex items-center gap-2 mb-3">
           <Shield className="w-5 h-5 text-primary" />
@@ -28,7 +27,7 @@ const VillageOverview: React.FC<Props> = ({ currentVillage }) => {
           </div>
           <div>
             <p className="text-xs font-mono text-muted-foreground">ID</p>
-            <p className="text-lg font-bold font-mono">{currentVillage.id}</p>
+            <p className="text-lg font-bold font-mono">#{currentVillage.id}</p>
           </div>
           <div>
             <p className="text-xs font-mono text-muted-foreground">SECTOR</p>
@@ -36,12 +35,11 @@ const VillageOverview: React.FC<Props> = ({ currentVillage }) => {
           </div>
           <div>
             <p className="text-xs font-mono text-muted-foreground">COORDINATES</p>
-            <p className="text-sm font-mono">{currentVillage.coordinates.lat}°N, {currentVillage.coordinates.lng}°E</p>
+            <p className="text-sm font-mono">{currentVillage.lat}°N, {currentVillage.lng}°E</p>
           </div>
         </div>
       </div>
 
-      {/* All villages by state */}
       {Object.entries(grouped).map(([state, vils]) => (
         <div key={state} className="bg-card border border-border rounded-lg overflow-hidden">
           <div className="px-4 py-2 bg-secondary/50 border-b border-border">
@@ -66,12 +64,12 @@ const VillageOverview: React.FC<Props> = ({ currentVillage }) => {
                       <span className="text-xs px-1.5 py-0.5 rounded bg-primary/20 text-primary font-mono">YOU</span>
                     )}
                   </div>
-                  <div className="ml-5.5 mt-1 flex items-center gap-2">
-                    <span className="text-xs font-mono text-muted-foreground">{v.id}</span>
+                  <div className="ml-6 mt-1 flex items-center gap-2">
+                    <span className="text-xs font-mono text-muted-foreground">#{v.id}</span>
                     <span className="text-xs text-muted-foreground/50">•</span>
                     <span className="text-xs text-muted-foreground">{v.sector}</span>
                   </div>
-                  <div className="ml-5.5 mt-0.5">
+                  <div className="ml-6 mt-0.5">
                     <div className="flex items-center gap-1">
                       <Radio className={`w-2.5 h-2.5 ${isCurrent ? "text-success" : "text-muted-foreground/30"}`} />
                       <span className={`text-xs font-mono ${isCurrent ? "text-success" : "text-muted-foreground/50"}`}>

@@ -14,7 +14,7 @@ const AlertPanel: React.FC<Props> = ({ currentVillage, otherVillages }) => {
   const { sendMessage, getAlertsForVillage } = useComm();
   const [alertText, setAlertText] = useState("");
   const [broadcast, setBroadcast] = useState(false);
-  const [selectedReceiver, setSelectedReceiver] = useState("");
+  const [selectedReceiver, setSelectedReceiver] = useState<number | "">("");
   const [error, setError] = useState("");
 
   const alerts = getAlertsForVillage(currentVillage.id);
@@ -32,7 +32,7 @@ const AlertPanel: React.FC<Props> = ({ currentVillage, otherVillages }) => {
 
     sendMessage({
       from: currentVillage.id,
-      to: broadcast ? "ALL" : selectedReceiver,
+      to: broadcast ? "ALL" : (selectedReceiver as number),
       text: alertText.trim(),
       type: "alert",
     });
@@ -41,7 +41,6 @@ const AlertPanel: React.FC<Props> = ({ currentVillage, otherVillages }) => {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-      {/* Send Alert */}
       <div className="bg-card border border-border rounded-lg p-4">
         <div className="flex items-center gap-2 mb-4 pb-3 border-b border-border">
           <AlertTriangle className="w-4 h-4 text-warning" />
@@ -49,7 +48,6 @@ const AlertPanel: React.FC<Props> = ({ currentVillage, otherVillages }) => {
         </div>
 
         <div className="space-y-4">
-          {/* Broadcast toggle */}
           <div className="flex items-center gap-3">
             <label className="flex items-center gap-2 cursor-pointer">
               <input
@@ -69,12 +67,12 @@ const AlertPanel: React.FC<Props> = ({ currentVillage, otherVillages }) => {
               </label>
               <select
                 value={selectedReceiver}
-                onChange={e => setSelectedReceiver(e.target.value)}
+                onChange={e => setSelectedReceiver(e.target.value ? Number(e.target.value) : "")}
                 className="w-full h-9 rounded-md bg-secondary border border-border px-3 text-sm font-mono text-foreground"
               >
                 <option value="">-- Select Village --</option>
                 {otherVillages.map(v => (
-                  <option key={v.id} value={v.id}>{v.name} ({v.id})</option>
+                  <option key={v.id} value={v.id}>{v.name} (#{v.id})</option>
                 ))}
               </select>
             </div>
@@ -103,7 +101,6 @@ const AlertPanel: React.FC<Props> = ({ currentVillage, otherVillages }) => {
         </div>
       </div>
 
-      {/* Received Alerts */}
       <div className="bg-card border border-border rounded-lg p-4">
         <div className="flex items-center gap-2 mb-4 pb-3 border-b border-border">
           <Radio className="w-4 h-4 text-destructive" />
