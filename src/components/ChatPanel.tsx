@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 
 interface Props {
   senderVillage: Village;
-  receiverVillageId: string;
+  receiverVillageId: number | null;
 }
 
 const ChatPanel: React.FC<Props> = ({ senderVillage, receiverVillageId }) => {
@@ -56,17 +56,14 @@ const ChatPanel: React.FC<Props> = ({ senderVillage, receiverVillageId }) => {
 
   return (
     <div className="h-full flex flex-col bg-card border border-border rounded-lg overflow-hidden">
-      {/* Header */}
       <div className="p-3 border-b border-border flex items-center justify-between bg-secondary/30">
-        <div className="flex items-center gap-3">
-          <div>
-            <p className="text-sm font-mono text-muted-foreground">
-              <span className="text-primary">{senderVillage.name.toUpperCase()}</span>
-              {" → "}
-              <span className="text-foreground">{receiver?.name.toUpperCase()}</span>
-            </p>
-            <p className="text-xs font-mono text-muted-foreground">{senderVillage.id} → {receiver?.id}</p>
-          </div>
+        <div>
+          <p className="text-sm font-mono text-muted-foreground">
+            <span className="text-primary">{senderVillage.name.toUpperCase()}</span>
+            {" → "}
+            <span className="text-foreground">{receiver?.name.toUpperCase()}</span>
+          </p>
+          <p className="text-xs font-mono text-muted-foreground">#{senderVillage.id} → #{receiver?.id}</p>
         </div>
         <div className="flex items-center gap-1.5 text-xs font-mono text-success">
           <ShieldCheck className="w-3.5 h-3.5" />
@@ -74,7 +71,6 @@ const ChatPanel: React.FC<Props> = ({ senderVillage, receiverVillageId }) => {
         </div>
       </div>
 
-      {/* Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-3">
         {conversation.length === 0 && (
           <div className="text-center text-muted-foreground/50 font-mono text-xs py-8">
@@ -108,7 +104,6 @@ const ChatPanel: React.FC<Props> = ({ senderVillage, receiverVillageId }) => {
         <div ref={bottomRef} />
       </div>
 
-      {/* Input */}
       <div className="p-3 border-t border-border bg-secondary/30">
         <div className="flex gap-2">
           <Button variant="ghost" size="icon" onClick={handleFileSelect} className="shrink-0 text-muted-foreground hover:text-primary">

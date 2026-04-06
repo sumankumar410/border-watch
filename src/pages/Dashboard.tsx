@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { useComm, Message } from "@/context/CommContext";
 import { villages } from "@/data/villages";
 import TopBar from "@/components/TopBar";
 import VillageSelector from "@/components/VillageSelector";
@@ -12,7 +11,7 @@ import { MessageSquare, AlertTriangle, MapPin } from "lucide-react";
 const Dashboard: React.FC = () => {
   const { village } = useAuth();
   const [activeTab, setActiveTab] = useState<"comm" | "alerts" | "overview">("comm");
-  const [receiverVillageId, setReceiverVillageId] = useState<string>("");
+  const [receiverVillageId, setReceiverVillageId] = useState<number | null>(null);
 
   if (!village) return null;
 
@@ -29,7 +28,6 @@ const Dashboard: React.FC = () => {
       <TopBar />
 
       <div className="flex-1 flex flex-col">
-        {/* Tab bar */}
         <div className="border-b border-border bg-card/50">
           <div className="container flex gap-0">
             {tabs.map(tab => (
@@ -49,7 +47,6 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Content */}
         <div className="flex-1 container py-4">
           {activeTab === "comm" && (
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 h-[calc(100vh-180px)]">

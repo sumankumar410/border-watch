@@ -5,8 +5,8 @@ import { Input } from "@/components/ui/input";
 
 interface Props {
   villages: Village[];
-  selectedId: string;
-  onSelect: (id: string) => void;
+  selectedId: number | null;
+  onSelect: (id: number) => void;
   currentVillage: Village;
 }
 
@@ -16,7 +16,7 @@ const VillageSelector: React.FC<Props> = ({ villages, selectedId, onSelect, curr
   const filtered = villages.filter(
     v => v.name.toLowerCase().includes(search.toLowerCase()) ||
          v.state.toLowerCase().includes(search.toLowerCase()) ||
-         v.id.toLowerCase().includes(search.toLowerCase())
+         String(v.id).includes(search)
   );
 
   const grouped = filtered.reduce<Record<string, Village[]>>((acc, v) => {
@@ -64,7 +64,7 @@ const VillageSelector: React.FC<Props> = ({ villages, selectedId, onSelect, curr
                   <p className={`text-sm font-semibold truncate ${selectedId === v.id ? "text-primary" : "text-foreground"}`}>
                     {v.name}
                   </p>
-                  <p className="text-xs font-mono text-muted-foreground">{v.id} • {v.sector}</p>
+                  <p className="text-xs font-mono text-muted-foreground">#{v.id} • {v.sector}</p>
                 </div>
               </button>
             ))}
