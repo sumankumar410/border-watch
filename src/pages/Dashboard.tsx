@@ -81,6 +81,11 @@ const Dashboard: React.FC = () => {
             <AlertPanel currentVillage={village} otherVillages={otherVillages} />
           )}
 
+          {activeTab === "surveillance" && <SurveillancePanel />}
+          {activeTab === "anomalies" && <AnomalyFeed />}
+          {activeTab === "vehicles" && <VehicleLogPanel />}
+          {activeTab === "analytics" && <AnalyticsPanel />}
+
           {activeTab === "overview" && (
             <VillageOverview currentVillage={village} />
           )}
