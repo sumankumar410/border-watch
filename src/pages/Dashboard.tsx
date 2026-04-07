@@ -6,11 +6,17 @@ import VillageSelector from "@/components/VillageSelector";
 import ChatPanel from "@/components/ChatPanel";
 import AlertPanel from "@/components/AlertPanel";
 import VillageOverview from "@/components/VillageOverview";
-import { MessageSquare, AlertTriangle, MapPin } from "lucide-react";
+import SurveillancePanel from "@/components/SurveillancePanel";
+import VehicleLogPanel from "@/components/VehicleLogPanel";
+import AnomalyFeed from "@/components/AnomalyFeed";
+import AnalyticsPanel from "@/components/AnalyticsPanel";
+import { MessageSquare, AlertTriangle, MapPin, Video, Car, Zap, Activity } from "lucide-react";
+
+type TabId = "comm" | "alerts" | "overview" | "surveillance" | "vehicles" | "anomalies" | "analytics";
 
 const Dashboard: React.FC = () => {
   const { village } = useAuth();
-  const [activeTab, setActiveTab] = useState<"comm" | "alerts" | "overview">("comm");
+  const [activeTab, setActiveTab] = useState<TabId>("comm");
   const [receiverVillageId, setReceiverVillageId] = useState<number | null>(null);
 
   if (!village) return null;
@@ -20,6 +26,10 @@ const Dashboard: React.FC = () => {
   const tabs = [
     { id: "comm" as const, label: "COMMS", icon: MessageSquare },
     { id: "alerts" as const, label: "ALERTS", icon: AlertTriangle },
+    { id: "surveillance" as const, label: "CAMS", icon: Video },
+    { id: "anomalies" as const, label: "AI DETECT", icon: Zap },
+    { id: "vehicles" as const, label: "ANPR", icon: Car },
+    { id: "analytics" as const, label: "INTEL", icon: Activity },
     { id: "overview" as const, label: "OVERVIEW", icon: MapPin },
   ];
 
@@ -70,6 +80,11 @@ const Dashboard: React.FC = () => {
           {activeTab === "alerts" && (
             <AlertPanel currentVillage={village} otherVillages={otherVillages} />
           )}
+
+          {activeTab === "surveillance" && <SurveillancePanel />}
+          {activeTab === "anomalies" && <AnomalyFeed />}
+          {activeTab === "vehicles" && <VehicleLogPanel />}
+          {activeTab === "analytics" && <AnalyticsPanel />}
 
           {activeTab === "overview" && (
             <VillageOverview currentVillage={village} />
