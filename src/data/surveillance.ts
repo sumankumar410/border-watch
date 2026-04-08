@@ -6,6 +6,7 @@ export interface Camera {
   signalStrength: number; // 0-100
 }
 
+
 export interface VehicleLog {
   id: string;
   plate: string;
@@ -14,6 +15,14 @@ export interface VehicleLog {
   timestamp: number;
   flagged: boolean;
   status: "normal" | "suspicious" | "high-risk";
+}
+export interface Camera {
+  id: string;
+  label: string;
+  villageId: number;
+  status: "online" | "offline";
+  signalStrength: number;
+  streamUrl?: string; // 👈 important
 }
 
 export interface AnomalyAlert {
